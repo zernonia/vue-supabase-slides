@@ -102,8 +102,6 @@ You can use it completely, or just the services you require:
 
 <!-- Database -->
 ---
-layout: 
----
 
 <div class="flex items-center">
   <div class="text-black bg-white p-2 w-max rounded-lg mr-4 mb-4">
@@ -116,11 +114,73 @@ layout:
 
 Supabase is built on top of Postgres, an extremely scalable Relational Database.
 
-<img class="w-116" src="https://supabase.io/_next/image?url=%2Fimages%2Fproduct%2Fdatabase%2Fheader--dark-2.png&w=1920&q=75" >
+<img class="" src="https://supabase.io/images/blog/pg13/postgres-13-og.jpg" >
 
-<!-- Auth -->
 ---
-layout: 
+layout: center
+---
+
+![meme](https://www.meme-arsenal.com/memes/93d97c676718b249359cff283560ce46.jpg)
+
+---
+
+<div class="flex items-center">
+  <div class="text-black bg-white p-2 w-max rounded-lg mr-4 mb-4">
+    <mdi-database-outline class="w-6 h-6" />
+  </div> 
+
+# Database
+    
+</div>
+
+<div class="grid grid-cols-2 gap-x-4 gap-y-2">
+
+<div>
+
+### Read 
+
+```javascript
+const { data, error } = await supabase
+  .from<City>('cities')
+  .select('name')
+```
+</div>
+
+<div>
+
+### Create
+
+```javascript
+const { data, error } = await supabase
+  .from<City>('cities')
+  .insert([
+    { name: 'The Shire', country_id: 554 },
+    { name: 'Rohan', country_id: 555 },
+  ])
+```
+</div>
+
+```javascript
+const { data, error } = await supabase
+  .from<City>('cities')
+  .update({ name: 'Middle Earth' })
+  .match({ name: 'Auckland' })
+```
+
+```javascript
+const { data, error } = await supabase
+  .from('cities')
+  .delete()
+  .match({ id: 666 })
+```
+
+
+</div>
+
+[Database.dev](https://database.dev)
+
+---
+<!-- Auth -->
 ---
 
 <div class="flex items-center">
@@ -142,8 +202,6 @@ Add user sign ups and logins, securing your data with Row Level Security.
 
 <!-- Storage -->
 ---
-layout: 
----
 
 <div class="flex items-center">
    <div class="text-black bg-white p-2 w-max rounded-lg mb-4 mr-4 ">
@@ -164,8 +222,6 @@ Any media, including videos and images.
 
 
 <!-- Function -->
----
-layout: 
 ---
 
 <div class="flex items-center">
