@@ -1,0 +1,64 @@
+@font-face {
+  font-family: custom-font;
+  font-weight: 500;
+  font-style: normal;
+  src: url(../assets/fonts/CustomFont-Medium.woff2) format("woff2");
+}
+
+:root {
+  /* default theme color */
+  /* can be overrided by uses `themeConfig` option */
+  --slidev-theme-primary: #24b47e;
+  --slidev-theme-secondary: #20a071;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--slidev-theme-primary);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--slidev-theme-secondary);
+}
+
+html {
+  font-family: custom-font, BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
+    Droid Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+p {
+  @apply !opacity-90;
+}
+
+strong {
+  @apply !font-normal text-green-500;
+}
+
+.slidev-layout.cover,
+.slidev-layout.intro {
+  @apply h-full grid;
+
+  h1 {
+    @apply text-6xl leading-20;
+  }
+
+  h1 + p {
+    @apply -mt-2 opacity-50 mb-4;
+  }
+
+  p + h2,
+  ul + h2,
+  table + h2 {
+    @apply mt-10;
+  }
+}
