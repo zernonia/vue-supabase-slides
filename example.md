@@ -89,7 +89,7 @@ You can use it completely, or just the services you require:
       Storage
   </div>
 
-  <div class="flex items-center text-gray-400">
+  <div class="flex items-center opacity-50">
     <div class="text-black bg-white p-2 w-max rounded-lg mr-4 ">
       <mdi-console class="w-6 h-6" />
     </div> 
@@ -373,61 +373,108 @@ create policy "Users can update their own profiles."
 
 </div>
 
+
 ---
 layout: center
 ---
 
-# Let's code! 🧑🏻‍💻
+# Let's see some 
+# **Vue 3 + Supabase** in action!
+
+<a target='blank' href="https://supabase-realtime-playground.vercel.app">supabase-realtime-playground.vercel.app</a>
 
 ---
 
+## Fetch button's count
 
-# Navigation
-
-Hover on the bottom-left corner to see the navigation's controls panel
-
-### Keyboard Shortcuts
-
-|                                                      |                             |
-| ---------------------------------------------------- | --------------------------- |
-| <kbd>space</kbd> / <kbd>tab</kbd> / <kbd>right</kbd> | next animation or slide     |
-| <kbd>left</kbd> / <kbd>shift</kbd><kbd>space</kbd>   | previous animation or slide |
-| <kbd>up</kbd>                                        | previous slide              |
-| <kbd>down</kbd>                                      | next slide                  |
-
----
-
-layout: image-right
-image: 'https://source.unsplash.com/collection/94734566/1920x1080'
-
----
-
-# Code
-
-Use code snippets and get the highlighting directly!
-
-```ts
-interface User {
-  id: number
-  firstName: string
-  lastName: string
-  role: string
+`src/components/PlayButton.vue`
+```javascript
+const fetchData = async () => {
+  const { data } = await supabase.from("realtime_playbutton").select("*")
 }
+```
 
-function updateUser(id: number, update: Partial<User>) {
-  const user = getUser(id)
-  const newUser = { ...user, ...update }
-  saveUser(id, newUser)
-}
+<div class="my-12" ></div>
+
+
+## Listen to Realtime
+
+
+`src/components/PlayButton.vue`
+```javascript
+const listen = () =>
+  supabase
+    .from("realtime_playbutton")
+    .on("UPDATE", (payload) => {
+      const { count, name } = payload.new
+      // do something 
+    })
+    .subscribe()
 ```
 
 ---
 
+## Login with Github
+
+`src/components/ModalLogin.vue`
+```javascript
+const loginGithub = async () => {
+  const { user, session, error } = await supabase.auth.signIn({
+    provider: "github",
+  })
+}
+```
+
+<div class="my-12" ></div>
+
+`src/App.vue`
+```javascript
+supabase.auth.onAuthStateChange(async (ev, session) => {
+  if (ev == "SIGNED_IN") {
+    // do stuff when user sign in, or session is not expired
+  }
+})
+```
+
+---
 layout: center
-class: "text-center"
+---
+
+# It's just that simple!
+
+---
+layout: center
+---
+
+# So... what's so different about **Supabase**?
+# It's the..
 
 ---
 
-# Learn More
+# It's the fun!
 
-[Documentations](https://sli.dev) / [GitHub Repo](https://github.com/slidevjs/slidev)
+![Supabase Hacktoberfest](https://supabase.io/images/blog/hacktoberfest-hackathon/hacktoberfest_banner.png)
+
+---
+
+# It's the swag!
+
+![Supabase Swag](https://supabase.io/images/blog/swag-store/cover-swag-store.jpg)
+
+---
+
+# It's the meme!
+
+![Supabase Meme](https://pbs.twimg.com/media/FC16hl9aQAAV1Tb?format=jpg&name=medium)
+
+---
+
+# It's the people!
+
+![Supabase Meme](https://pbs.twimg.com/media/FAoCLHkVIAcMnP2?format=jpg&name=4096x4096)
+
+---
+layout: center
+---
+
+# Join us now!
