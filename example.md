@@ -103,18 +103,24 @@ You can use it completely, or just the services you require:
 <!-- Database -->
 ---
 
-<div class="flex items-center">
-  <div class="text-black bg-white p-2 w-max rounded-lg mr-4 mb-4">
-    <mdi-database-outline class="w-6 h-6" />
-  </div> 
+<div class="grid grid-cols-2 place-items-center h-full">
+  <div class="flex flex-col justify-center">
+    <div class="flex items-center">
+      <div class="text-black bg-white p-2 w-max rounded-lg mr-4 mb-4">
+        <mdi-database-outline class="w-6 h-6" />
+      </div> 
+    </div>
 
-# Database
-    
+  # Database
+
+  Supabase is built on top of Postgres, an extremely scalable **Relational Database**.
+  </div>
+
+  <div class="w-full h-full flex items-center">
+  <img class="object-fits"  src="https://supabase.io/_next/image?url=%2Fimages%2Fproduct%2Fdatabase%2Fheader--dark-2.png&w=3840&q=75" >
+  </div>
+
 </div>
-
-Supabase is built on top of Postgres, an extremely scalable Relational Database.
-
-<img class="" src="https://supabase.io/images/blog/pg13/postgres-13-og.jpg" >
 
 ---
 layout: center
@@ -143,6 +149,9 @@ layout: center
 const { data, error } = await supabase
   .from<City>('cities')
   .select('name')
+
+
+  _
 ```
 </div>
 
@@ -160,88 +169,218 @@ const { data, error } = await supabase
 ```
 </div>
 
+
+<div>
+
+### Update
+
 ```javascript
 const { data, error } = await supabase
   .from<City>('cities')
   .update({ name: 'Middle Earth' })
   .match({ name: 'Auckland' })
 ```
+</div>
+
+
+<div>
+
+### Delete 
 
 ```javascript
 const { data, error } = await supabase
-  .from('cities')
+  .from<City>('cities')
   .delete()
   .match({ id: 666 })
 ```
+</div>
 
 
 </div>
 
-[Database.dev](https://database.dev)
-
 ---
+
+### Even more powerful...
+
+Create postgres function:
+```sql
+create or replace function get_tags (tag text)  -- params: tag
+returns setof product
+language plpgsql
+as $$
+begin
+  return query 
+    select * from product where tag % any(categories);
+end; $$ 
+```
+
+Invoke postgres function using Supabase
+```javascript
+const { data, error, count } = await supabase
+  .rpc(
+    "get_tags",
+    { tag: 'Macbook' }  // pass data into parameter
+  )
+```
+
 <!-- Auth -->
 ---
 
-<div class="flex items-center">
-   <div class="text-black bg-white p-2 w-max rounded-lg mb-4 mr-4 ">
-      <mdi-key-outline class="w-6 h-6" />
-    </div> 
+<div class="grid grid-cols-2 place-items-center h-full">
+  <div class="flex flex-col justify-center">
+    <div class="flex items-center">
+      <div class="text-black bg-white p-2 w-max rounded-lg mb-4 mr-4 ">
+        <mdi-key-outline class="w-6 h-6" />
+      </div> 
+    </div>
 
-# Authentication
-    
+  # Authentication
+        
+  Supabase makes it simple to manage your users. <br>
+  Add user sign ups and logins, securing your data <br> with **Row Level Security**.
+  
+
+  </div>
+
+  
+
+  <div class="w-full h-full flex items-center">
+  <img class="object-fits"  src="https://pbs.twimg.com/media/FCFJhQ4WYAMqDAM?format=jpg&name=medium" >
+  </div>
+
 </div>
 
-Supabase makes it simple to manage your users. <br>
-Add user sign ups and logins, securing your data with Row Level Security.
+---
+layout: image
+image: assets/images/auth.png
 
-<img class="w-116" src="https://supabase.io/_next/image?url=%2Fimages%2Fproduct%2Fauth%2Fheader--dark.png&w=1920&q=75" >
+---
 
-<img class="w-116" src="https://pbs.twimg.com/media/FCFJhQ4WYAMqDAM?format=jpg&name=medium" >
+---
+
+<div class="grid grid-cols gap-x-4 gap-y-2">
+
+<div>
+
+## Sign Up/Sign In
+
+### using Email
+
+```javascript
+const { user, session, error } = await supabase.auth.signUp({
+  email: 'example@email.com',
+  password: 'example-password',
+})
+
+const { user, session, error } = await supabase.auth.signIn({
+  email: 'example@email.com',
+  password: 'example-password',
+})
+```
+</div>
+
+<div>
+
+### using Social login
+
+```javascript
+async function signInWithGoogle() {
+  const { user, session, error } = await supabase.auth.signIn({
+    provider: 'google'  // 'github', 'apple', 'twilio', etc...
+  });
+}
+```
+</div>
+
+</div>
+
+---
+
+## Security Rules
+
+Supabase utilize Postgres' super granular **Row Level Security**, where user can create policy on each table that restrict the CRUD operations.
+
+```sql
+-- 1. Enable RLS
+alter table profiles
+  enable row level security;
+
+-- 2. Create Policy
+create policy "Public profiles are viewable by everyone."
+  on profiles for select using (
+    true
+  );
+
+-- 3. Create Policy
+create policy "Users can update their own profiles."
+  on profiles for update using (
+    auth.uid() = id  
+    -- `auth.uid()`, `auth.role()`, `auth.email()` are predefined helper functions
+  );
+```
 
 
 <!-- Storage -->
 ---
 
-<div class="flex items-center">
-   <div class="text-black bg-white p-2 w-max rounded-lg mb-4 mr-4 ">
-      <mdi-archive-outline class="w-6 h-6" />
-    </div> 
+<div class="grid grid-cols-2 place-items-center h-full">
+  <div class="flex flex-col justify-center">
+    <div class="flex items-center">
+      <div class="text-black bg-white p-2 w-max rounded-lg mb-4 mr-4 ">
+        <mdi-archive-outline class="w-6 h-6" />
+      </div> 
+    </div>
 
-# Storage
-    
+  # Storage
+        
+  Supabase Storage makes it simple to store <br> and serve large files. **Any media**, <br> including videos and images.
+
+  </div>
+
+  
+
+  <div class="w-full h-full flex items-center">
+  <img class="object-fits"  src="https://supabase.io/_next/image?url=%2Fimages%2Fproduct%2Fstorage%2Fheader--dark.png&w=1920&q=75">
+  </div>
+
 </div>
-
-Supabase Storage makes it simple to store and serve large files. <br>
-Any media, including videos and images.
-
-
-<img class="w-116" src="https://supabase.io/_next/image?url=%2Fimages%2Fproduct%2Fstorage%2Fheader--dark.png&w=1920&q=75" >
-
-<img class="w-116" src="https://pbs.twimg.com/media/FCFJhQ4WYAMqDAM?format=jpg&name=medium" >
 
 
 <!-- Function -->
 ---
 
-<div class="flex items-center">
-   <div class="text-black bg-white p-2 w-max rounded-lg mb-4 mr-4 ">
-       <mdi-console class="w-6 h-6" />
-    </div> 
+<div class="grid grid-cols-2 place-items-center h-full">
+  <div class="flex flex-col justify-center">
+    <div class="flex items-center">
+      <div class="text-black bg-white p-2 w-max rounded-lg mb-4 mr-4 ">
+        <mdi-console class="w-6 h-6" />
+      </div> 
+    </div>
 
-# Function
-    
-</div>
-
-Supabase Functions allow developers to write custom code <br>
-and even cron jobs without deploying or scaling servers.
+  # Function
+        
+  Write custom code and even cron jobs without <br> deploying or scaling servers.
 
 `coming soon`
 
+  </div>
+
+  
+
+  <div class="w-full h-full flex items-center">
+  <img class="object-fits"  src="https://supabase.io/images/blog/functions-updates/thumb-supabase-hooks.jpg">
+  </div>
+
+</div>
+
+---
+layout: center
 ---
 
+# Let's code! 🧑🏻‍💻
 
 ---
+
 
 # Navigation
 
