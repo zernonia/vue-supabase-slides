@@ -252,7 +252,7 @@ const { data, error, count } = await supabase
 
 ---
 layout: image
-image: assets/images/auth.png
+image: /images/auth.png
 
 ---
 
