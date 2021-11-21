@@ -123,12 +123,6 @@ You can use it completely, or just the services you require:
 </div>
 
 ---
-layout: center
----
-
-![meme](https://www.meme-arsenal.com/memes/93d97c676718b249359cff283560ce46.jpg)
-
----
 
 <div class="flex items-center">
   <div class="text-black bg-white p-2 w-max rounded-lg mr-4 mb-4">
@@ -147,7 +141,7 @@ layout: center
 
 ```javascript
 const { data, error } = await supabase
-  .from<City>('cities')
+  .from<Product>('products')
   .select('name')
 
 
@@ -161,10 +155,10 @@ const { data, error } = await supabase
 
 ```javascript
 const { data, error } = await supabase
-  .from<City>('cities')
+  .from<Product>('products')
   .insert([
-    { name: 'The Shire', country_id: 554 },
-    { name: 'Rohan', country_id: 555 },
+    { name: 'Cool Swag', tag: ['swag', 'black'] },
+    { name: 'Stickers', tag: ['swag', 'sticker'] },
   ])
 ```
 </div>
@@ -176,9 +170,9 @@ const { data, error } = await supabase
 
 ```javascript
 const { data, error } = await supabase
-  .from<City>('cities')
-  .update({ name: 'Middle Earth' })
-  .match({ name: 'Auckland' })
+  .from<Product>('products')
+  .update({ name: 'New Swag' })
+  .match({ name: 'Cool Swag' })
 ```
 </div>
 
@@ -189,9 +183,9 @@ const { data, error } = await supabase
 
 ```javascript
 const { data, error } = await supabase
-  .from<City>('cities')
+  .from<Product>('products')
   .delete()
-  .match({ id: 666 })
+  .match({ name: 'Cool Swag' })
 ```
 </div>
 
@@ -199,8 +193,14 @@ const { data, error } = await supabase
 </div>
 
 ---
+layout: center
+---
 
-### Even more powerful...
+<img src="https://media.giphy.com/media/3o7btNa0RUYa5E7iiQ/giphy.gif">
+
+---
+
+## Even more powerful...
 
 Create postgres function:
 ```sql
@@ -219,9 +219,26 @@ Invoke postgres function using Supabase
 const { data, error, count } = await supabase
   .rpc(
     "get_tags",
-    { tag: 'Macbook' }  // pass data into parameter
+    { tag: 'swag' }  // pass data into parameter
   )
 ```
+
+---
+
+## Also, Realtime Subscription
+Subscribe to realtime changes in your database.
+
+```javascript
+const mySubscription = supabase
+  .from('products')
+  .on('UPDATE', payload => {
+    console.log('Change received!', payload)
+    // do something
+  })
+  .subscribe()
+```
+
+<img src='https://media.giphy.com/media/L4Bb7zCaP8FB5C769T/giphy.gif' style="margin-top: 2rem;" >
 
 <!-- Auth -->
 ---
@@ -249,12 +266,6 @@ const { data, error, count } = await supabase
   </div>
 
 </div>
-
----
-layout: image
-image: /images/auth.png
-
----
 
 ---
 
@@ -293,6 +304,23 @@ async function signInWithGoogle() {
 </div>
 
 </div>
+
+---
+layout: image
+image: /images/auth.png
+---
+
+---
+layout: center
+---
+
+<img class="w-128 mt-20 rounded-lg" src="/images/supabase-auth.png">
+
+---
+layout: center
+---
+
+<img src="https://media.giphy.com/media/SACoDGYTvVNhZYNb5a/giphy.gif">
 
 ---
 
@@ -345,6 +373,53 @@ create policy "Users can update their own profiles."
 
 </div>
 
+---
+
+## Storage
+
+Bucket based storage. You can create distinct buckets for different Security and Access Rules.
+
+For example, you might keep all public files in a "public" bucket, and other files that require logged-in access in a "restricted" bucket.
+
+<div class="grid grid-cols-2 gap-x-4 gap-y-2">
+
+```javascript
+const imageFile = event.target.files[0]
+const { data, error } = await supabase
+  .storage
+  .from('products')
+  .upload('public/swag.png', imageFile)
+```
+
+```javascript
+const imageFile = event.target.files[0]
+const { data, error } = await supabase
+  .storage
+  .from('products')
+  .upload('secret/swag/shhhh.png', imageFile)
+```
+
+</div>
+
+
+<div class="grid grid-cols-1 gap-y-4 mt-12"> 
+  
+  `coming soon`
+
+  <div class="flex items-center  opacity-50">
+    <div class="text-black bg-white p-2 w-max rounded-lg mr-4 ">
+      <mdi-wifi class="w-6 h-6" />
+    </div> 
+      CDN
+  </div>
+
+  <div class="flex items-center opacity-50">
+    <div class="text-black bg-white p-2 w-max rounded-lg mr-4 ">
+      <ph:magic-wand-fill  class="w-6 h-6" />
+    </div> 
+      Transformation
+  </div>
+</div>
 
 <!-- Function -->
 ---
@@ -414,13 +489,13 @@ const listen = () =>
 
 ---
 
-## Login with Github
+## Login with Twitter
 
 `src/components/ModalLogin.vue`
 ```javascript
-const loginGithub = async () => {
+const loginTwitter = async () => {
   const { user, session, error } = await supabase.auth.signIn({
-    provider: "github",
+    provider: "twitter",
   })
 }
 ```
