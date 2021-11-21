@@ -552,4 +552,13 @@ layout: center
 layout: center
 ---
 
-# Join us now!
+![](https://media.giphy.com/media/L40sNfcoJs5Op5afQU/giphy.gif)
+
+---
+layout: center
+---
+
+# Check out 
+# [www.madewithsupabase.com](https://madewithsupabase.com)
+
+<div class="mt-8 text-gray-500"> Built with Nuxt 3 + Supabase 😉 </div>
