@@ -68,6 +68,7 @@ It provides all the backend services you need to build a product. <br>
 You can use it completely, or just the services you require:
 
 <div class="grid grid-cols-2 gap-y-4 mt-12"> 
+  <v-clicks>
   <div class="flex items-center">
     <div class="text-black bg-white p-2 w-max rounded-lg mr-4 ">
       <mdi-database-outline class="w-6 h-6" />
@@ -95,6 +96,7 @@ You can use it completely, or just the services you require:
     </div> 
       Function
   </div>
+  </v-clicks>
 </div>
 
 
@@ -113,7 +115,11 @@ You can use it completely, or just the services you require:
 
   # Database
 
+  <v-click>
+
   Supabase is built on top of Postgres, an extremely scalable **Relational Database**.
+  
+  </v-click>
   </div>
 
   <div class="w-full h-full flex items-center">
@@ -130,65 +136,67 @@ You can use it completely, or just the services you require:
   </div> 
 
 # Database
-    
+
 </div>
+
+Auto generated API endpoints (using **PosgREST**)
 
 <div class="grid grid-cols-2 gap-x-4 gap-y-2">
+  <v-clicks>
+  <div>
 
-<div>
+  ### Read 
 
-### Read 
-
-```javascript
-const { data, error } = await supabase
-  .from<Product>('products')
-  .select('name')
-
-
-  _
-```
-</div>
-
-<div>
-
-### Create
-
-```javascript
-const { data, error } = await supabase
-  .from<Product>('products')
-  .insert([
-    { name: 'Cool Swag', tag: ['swag', 'black'] },
-    { name: 'Stickers', tag: ['swag', 'sticker'] },
-  ])
-```
-</div>
+  ```javascript
+  const { data, error } = await supabase
+    .from<Product>('products')
+    .select('name')
 
 
-<div>
+    _
+  ```
+  </div>
 
-### Update
+  <div>
 
-```javascript
-const { data, error } = await supabase
-  .from<Product>('products')
-  .update({ name: 'New Swag' })
-  .match({ name: 'Cool Swag' })
-```
-</div>
+  ### Create
+
+  ```javascript
+  const { data, error } = await supabase
+    .from<Product>('products')
+    .insert([
+      { name: 'Cool Swag', tag: ['swag', 'black'] },
+      { name: 'Stickers', tag: ['swag', 'sticker'] },
+    ])
+  ```
+  </div>
 
 
-<div>
+  <div>
 
-### Delete 
+  ### Update
 
-```javascript
-const { data, error } = await supabase
-  .from<Product>('products')
-  .delete()
-  .match({ name: 'Cool Swag' })
-```
-</div>
+  ```javascript
+  const { data, error } = await supabase
+    .from<Product>('products')
+    .update({ name: 'New Swag' })
+    .match({ name: 'Cool Swag' })
+  ```
+  </div>
 
+
+  <div>
+
+  ### Delete 
+
+  ```javascript
+  const { data, error } = await supabase
+    .from<Product>('products')
+    .delete()
+    .match({ name: 'Cool Swag' })
+  ```
+  </div>
+  </v-clicks>
 
 </div>
 
@@ -202,7 +210,10 @@ layout: center
 
 ## Even more powerful...
 
+<v-click>
+
 Create postgres function:
+
 ```sql
 create or replace function get_tags (tag text)  -- params: tag
 returns setof product
@@ -214,6 +225,10 @@ begin
 end; $$ 
 ```
 
+</v-click>
+
+<v-click>
+
 Invoke postgres function using Supabase
 ```javascript
 const { data, error, count } = await supabase
@@ -223,10 +238,15 @@ const { data, error, count } = await supabase
   )
 ```
 
+</v-click>
+
 ---
 
 ## Also, Realtime Subscription
+
 Subscribe to realtime changes in your database.
+
+<v-click>
 
 ```javascript
 const mySubscription = supabase
@@ -238,7 +258,9 @@ const mySubscription = supabase
   .subscribe()
 ```
 
-<img src='https://media.giphy.com/media/L4Bb7zCaP8FB5C769T/giphy.gif' style="margin-top: 2rem;" >
+</v-click>
+
+<img v-click src='https://media.giphy.com/media/L4Bb7zCaP8FB5C769T/giphy.gif' style="margin-top: 2rem;" >
 
 <!-- Auth -->
 ---
@@ -252,14 +274,15 @@ const mySubscription = supabase
     </div>
 
   # Authentication
+
+  <v-click>
         
   Supabase makes it simple to manage your users. <br>
   Add user sign ups and logins, securing your data <br> with **Row Level Security**.
   
+  </v-click>
 
   </div>
-
-  
 
   <div class="w-full h-full flex items-center">
   <img class="object-fits"  src="https://pbs.twimg.com/media/FCFJhQ4WYAMqDAM?format=jpg&name=medium" >
@@ -271,37 +294,40 @@ const mySubscription = supabase
 
 <div class="grid grid-cols gap-x-4 gap-y-2">
 
-<div>
+  ## Sign Up/Sign In
 
-## Sign Up/Sign In
+  <v-clicks>
+  <div>
 
-### using Email
 
-```javascript
-const { user, session, error } = await supabase.auth.signUp({
-  email: 'example@email.com',
-  password: 'example-password',
-})
+  ### using Email
 
-const { user, session, error } = await supabase.auth.signIn({
-  email: 'example@email.com',
-  password: 'example-password',
-})
-```
-</div>
+  ```javascript
+  const { user, session, error } = await supabase.auth.signUp({
+    email: 'example@email.com',
+    password: 'example-password',
+  })
 
-<div>
-
-### using Social login
-
-```javascript
-async function signInWithGoogle() {
   const { user, session, error } = await supabase.auth.signIn({
-    provider: 'google'  // 'github', 'apple', 'twilio', etc...
-  });
-}
-```
-</div>
+    email: 'example@email.com',
+    password: 'example-password',
+  })
+  ```
+  </div>
+
+  <div>
+
+  ### using Social login
+
+  ```javascript
+  async function signInWithGoogle() {
+    const { user, session, error } = await supabase.auth.signIn({
+      provider: 'google'  // 'github', 'apple', 'twilio', etc...
+    });
+  }
+  ```
+  </div>
+  </v-clicks>
 
 </div>
 
@@ -326,9 +352,12 @@ layout: center
 
 ## Security Rules
 
-Supabase utilize Postgres' super granular **Row Level Security**, where user can create policy on each table that restrict the CRUD operations.
+Supabase utilize Postgres' super granular **Row Level Security**, <br>
+where user can create policy on each table that restrict the CRUD operations.
 
-```sql
+<v-click>
+
+```sql {2,3|6-9|12-15}
 -- 1. Enable RLS
 alter table profiles
   enable row level security;
@@ -347,6 +376,7 @@ create policy "Users can update their own profiles."
   );
 ```
 
+</v-click>
 
 <!-- Storage -->
 ---
@@ -361,12 +391,14 @@ create policy "Users can update their own profiles."
 
   # Storage
         
+  <v-click>
+
   Supabase Storage makes it simple to store <br> and serve large files. **Any media**, <br> including videos and images.
 
+  </v-click>
+
   </div>
-
   
-
   <div class="w-full h-full flex items-center">
   <img class="object-fits"  src="https://supabase.io/_next/image?url=%2Fimages%2Fproduct%2Fstorage%2Fheader--dark.png&w=1920&q=75">
   </div>
@@ -382,6 +414,7 @@ Bucket based storage. You can create distinct buckets for different Security and
 For example, you might keep all public files in a "public" bucket, and other files that require logged-in access in a "restricted" bucket.
 
 <div class="grid grid-cols-2 gap-x-4 gap-y-2">
+<v-clicks>
 
 ```javascript
 const imageFile = event.target.files[0]
@@ -399,10 +432,11 @@ const { data, error } = await supabase
   .upload('secret/swag/shhhh.png', imageFile)
 ```
 
+</v-clicks>
 </div>
 
 
-<div class="grid grid-cols-1 gap-y-4 mt-12"> 
+<div v-click class="grid grid-cols-1 gap-y-4 mt-12"> 
   
   `coming soon`
 
@@ -434,9 +468,13 @@ const { data, error } = await supabase
 
   # Function
         
+  <v-click>
+    
   Write custom code and even cron jobs without <br> deploying or scaling servers.
 
-`coming soon`
+  `coming soon`
+
+  </v-click>
 
   </div>
 
@@ -561,4 +599,4 @@ layout: center
 # Check out 
 # [www.madewithsupabase.com](https://madewithsupabase.com)
 
-<div class="mt-8 text-gray-500"> Built with Nuxt 3 + Supabase 😉 </div>
+<div class="mt-8 text-warm-gray-400"> Built with Nuxt 3 + Supabase 😉 </div>
