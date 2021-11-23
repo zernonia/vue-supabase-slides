@@ -65,7 +65,7 @@ layout: center
 Supabase is an open source **Firebase alternative**.
 
 It provides all the backend services you need to build a product. <br>
-You can use it completely, or just the services you require:
+You can use all the services, or just the services you require:
 
 <div class="grid grid-cols-2 gap-y-4 mt-12"> 
   <v-clicks>
